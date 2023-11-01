@@ -1,0 +1,51 @@
+﻿@model Home_Central.Data.Entities.WoningVerbruikModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>WoningVerbruikModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.datum)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.datum)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GasStand)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GasStand)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DagTeller)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DagTeller)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NachtTeller)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NachtTeller)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Zon)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Zon)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

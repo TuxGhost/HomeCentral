@@ -1,8 +1,30 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div>
+    <p>Ik ben een IT-er met een interesse voor applicatie ontwikkeling en nieuwe technologiën</p>
 </div>
+<div>
+    <p>Door omstandigheden en keuze heb ik de laatste jaren voornamelijk support en kleine aanpassingen uitgevoerd in een SAP omgeving met betrekking tot de configuraties en kleine software aanpassingen met behulp van de programmeertaal ABAP.</p>
+</div>
+
+<div>
+    <p>Tijdens deze periode heb ik mij een klein beetje toegelegd op webdesign met behulp van PHP en drupal waarmee deze website werd gemaakt.</p>
+</div>
+<div>
+    <p>
+        n 2023 heb ik van de gelegenheid gebruik gemaakt om mijn programmeerkennis een flinke update te geven door de opleiding .NET developer bij de VDAB te volgen.
+        Met behulp van deze kennis heb ik een nieuwe site gemaakt om gegevens van mijn CV online te zetten als een eerste officiele oefening waarbij gebruik werd gemaakt van ASP.NET.CORE en bootstrap.
+    </p>
+</div>
+
+<a href="https://cv.peterkuda.be">Link naar mijn volledige curriculum vitae</a>
+<p></p>
+@if (SignInManager.IsSignedIn(User))
+{
+    <a asp-action="Index" asp-controller="WoningVerbruik">Woning verbruik</a>
+}

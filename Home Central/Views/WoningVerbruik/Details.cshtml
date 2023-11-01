@@ -1,0 +1,48 @@
+﻿@model Home_Central.Data.Entities.WoningVerbruikModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>WoningVerbruikModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.datum)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.datum)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GasStand)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GasStand)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DagTeller)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DagTeller)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NachtTeller)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NachtTeller)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Zon)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Zon)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
