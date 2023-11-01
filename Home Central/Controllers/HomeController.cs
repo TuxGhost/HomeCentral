@@ -14,7 +14,7 @@ namespace Home_Central.Controllers
         }
 
         public IActionResult Index()
-        {
+        {            
             return View();
         }
 
