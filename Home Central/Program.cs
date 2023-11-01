@@ -8,8 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")??
     throw new InvalidOperationException("Could not connect to database");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    //options.UseMySQL(connectionString));
-    options.UseSqlServer(connectionString));
+    options.UseMySQL(connectionString));
+    //options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
