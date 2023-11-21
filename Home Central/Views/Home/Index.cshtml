@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@model IEnumerable<Home_Central.Data.Entities.HomeText>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -24,6 +25,25 @@
 
 <a href="https://cv.peterkuda.be">Link naar mijn volledige curriculum vitae</a>
 <p></p>
+<div>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <button type="submit" onclick="location='@Url.Action("NieuweText","Home")'">Nieuwe tekst blok</button>
+    }
+    @if (Model != null)
+    {
+        @foreach (var text in Model)
+        {
+            <div>
+                <p>@text.Body</p>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                        <button type="submit" onclick="location='@Url.Action("EditText","Home",@text)'">Tekst blok aanpassen</button>
+                }                
+            </div>
+        }
+    }
+</div>
 @if (SignInManager.IsSignedIn(User))
 {
     <a asp-action="Index" asp-controller="WoningVerbruik">Woning verbruik</a>
