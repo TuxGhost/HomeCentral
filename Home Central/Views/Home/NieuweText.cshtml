@@ -1,0 +1,16 @@
+﻿@model Home_Central.Data.Entities.HomeText;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<form method="post" asp-action="SetNieuweText" asp-controller="Home">
+    <label asp-for="Id">Id</label>
+    <input type="number" name="Id" value="@Model.Id"/>
+    <label asp-for="Subject">Onderwerp</label>
+    <input type="text" name="Subject"value="@Model.Subject" />
+    <label asp-for="Body">Inhoud</label>
+    <input type="text" name="Body" value="@Model.Body" />
+    <input type="submit" value="Submit" />
+</form>
