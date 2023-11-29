@@ -1,7 +1,9 @@
 using Home_Central.Data;
 using Home_Central.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Mail;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 var logging = builder.Configuration.GetValue<string>("LoggingEnabled", "false");
 
-
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+builder.Services.AddSingleton<IEmailSender,SmtpService>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySQL(connectionString));
 builder.Services.AddDbContext<WoningDbContext>(options =>
