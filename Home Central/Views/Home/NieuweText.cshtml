@@ -6,11 +6,18 @@
 }
 
 <form method="post" asp-action="SetNieuweText" asp-controller="Home">
-    <label asp-for="Id">Id</label>
-    <input type="number" name="Id" value="@Model.Id"/>
-    <label asp-for="Subject">Onderwerp</label>
-    <input type="text" name="Subject"value="@Model.Subject" />
-    <label asp-for="Body">Inhoud</label>
-    <input type="text" name="Body" value="@Model.Body" />
-    <input type="submit" value="Submit" />
+    <div class="row">
+        <label asp-for="Id">Id</label>
+        <input type="number" name="Id" value="@Model.Id" readonly/>
+    </div>
+    <div class="row">
+        <label asp-for="Subject">Onderwerp</label>
+        <input type="text" name="Subject" value="@Model.Subject" minlengt="1"/>
+    </div>
+    <div class="row">
+        <label asp-for="Body" class="form-label">Inhoud</label>        
+        <textarea asp-for="Body" rows="10"></textarea>
+        <input type="submit" value="Submit" />
+        <span>@Html.ValidationSummary("Er zijn validatiefouten")</span>
+    </div>    
 </form>

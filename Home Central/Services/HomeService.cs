@@ -31,8 +31,8 @@ public class HomeService : IHomeService
     }
 
     public async Task PostHomeText(HomeText text)
-    {
-        context.Add(text);
+    {        
+        context.HomeTexts.Add(text);
         await context.SaveChangesAsync();
     }
 
