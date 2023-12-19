@@ -6,36 +6,6 @@
 *@
 @{
 }
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>User</th>
-            <th>E-mail</th>
-            <th>E-mail confirmed</th>
-            <th>Phonenumber</th>
-            <th>Phonenumber confirmed</th>
-            <th>Lockout enabled</th>
-            <th>Lockout end</th>
-            <th>Twofactor enabled</th>
-            <th>Access failed count</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
-            <tr >
-                <td>@user.Id</td>
-                <td>@user.UserName</td>
-                <td>@user.Email</td>
-                <td>@user.EmailConfirmed</td>
-                <td>@user.PhoneNumber</td>
-                <td>@user.PhoneNumberConfirmed</td>
-                <td>@user.LockoutEnabled</td>
-                <td>@user.LockoutEnd</td>
-                <td>@user.TwoFactorEnabled</td>
-                <td>@user.AccessFailedCount</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<a asp-action="Users">Users</a>
+<a asp-action="Roles">Roles</a>
+<a asp-action="UserRoles">User roles</a>

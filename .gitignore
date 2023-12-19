@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /Home Central/wwwroot/lib
 /Home Central/appsettings.json
+/.vs2
