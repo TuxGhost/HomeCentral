@@ -32,19 +32,23 @@ namespace Home_Central.Controllers
         [HttpPost]
         public async Task<IActionResult> SetNieuweText(HomeText value)
         {
-            try
+            if(ModelState.IsValid)
             {
-                if(value.Id == 0) 
-                    await _homeService.PostHomeText(value);
-                else
-                    await _homeService.UpdateHomeText(value);
-                var nieuw = new HomeText();
-                return View(nameof(Index));
-            } catch (Exception) 
-            {
-                return Problem();
+                try
+                {
+                    if (value.Id == 0)
+                        await _homeService.PostHomeText(value);
+                    else
+                        await _homeService.UpdateHomeText(value);
+                    var nieuw = new HomeText();
+                    return View(nameof(Index));
+                }
+                catch (Exception)
+                {
+                    return Problem();
+                }
             }
-            
+            return View(nameof(NieuweText),value);            
         }
         [Authorize]
         public  IActionResult EditText(HomeText homeText)
