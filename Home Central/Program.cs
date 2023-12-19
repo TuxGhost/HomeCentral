@@ -13,9 +13,9 @@ var logging = builder.Configuration.GetValue<string>("LoggingEnabled", "false");
 
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySQL(connectionString));
+    options.UseSqlite(connectionString));
 builder.Services.AddDbContext<WoningDbContext>(options =>
-    options.UseMySQL(connectionString));
+    options.UseSqlite(connectionString));
 // enable logging depending on  value in appsettings.json (not standard)
 if (logging == "true")
 {
