@@ -20,7 +20,7 @@ builder.Services.AddDbContext<WoningDbContext>(options =>
 if (logging == "true")
 {
     builder.Services.AddDbContext<HomeDbContext>(options =>
-        options.UseMySQL(connectionString)
+        options.UseSqlite(connectionString)
         .LogTo(Console.WriteLine ,
             new[] { DbLoggerCategory.Database.Command.Name } ,
             Microsoft.Extensions.Logging.LogLevel.Information,
@@ -31,7 +31,7 @@ if (logging == "true")
 } else
 {
     builder.Services.AddDbContext<HomeDbContext>(options =>
-        options.UseMySQL(connectionString)
+        options.UseSqlite(connectionString)
     );
 }
 

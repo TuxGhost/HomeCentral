@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Migrations\" />
+    <ProjectReference Include="..\HomeCentral-Migration-SqLite\HomeCentral-Migration-SqLite.csproj" />
   </ItemGroup>
 
   <ItemGroup>
