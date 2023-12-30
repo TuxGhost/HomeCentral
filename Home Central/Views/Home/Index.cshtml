@@ -40,6 +40,7 @@
                 @if (SignInManager.IsSignedIn(User))
                 {
                         <button type="submit" onclick="location='@Url.Action("EditText","Home",@text)'">Tekst blok aanpassen</button>
+                        <button type="submit" onclick="location='@Url.Action("DeleteText","Home",@text)'">Delete blok</button>
                 }                
             </div>
         }

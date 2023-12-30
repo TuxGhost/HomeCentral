@@ -55,7 +55,23 @@ namespace Home_Central.Controllers
         {            
             return View(nameof(NieuweText),homeText);
         }
-
+        [Authorize]
+        public IActionResult DeleteText(HomeText homeText)
+        {
+            return View(nameof(DeleteText),homeText);
+        }
+        [Authorize,HttpPost]
+        public async Task<IActionResult> DeleteOldText(HomeText homeText)
+        {
+            if (ModelState.IsValid)
+            {
+                if(homeText.Id != 0)
+                {
+                    await _homeService.DeleteHomeText(homeText);
+                }
+            }
+            return View(nameof(Index));
+        }
         public IActionResult Privacy()
         {
             return View();
