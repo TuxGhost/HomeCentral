@@ -1,0 +1,52 @@
+﻿@model IdentityUserModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<h3>User data</h3>
+<div>
+    <label>Id</label><input type="text" value="@Model.User.Id" readonly />
+</div>
+<div>
+    <label>Gebruikersnaam</label><input type="text" value="@Model.User.UserName" readonly />
+</div>
+<div>
+    <label>E-mail</label><input type="text" value="@Model.User.Email" readonly />
+</div>
+<div>
+    <label>Telefoon</label><input type="text" value="@Model.User.PhoneNumber" readonly />
+</div>
+<h3>Roles</h3>
+<ul>
+    @foreach (var role in Model.Roles)
+    {
+        <li>@role
+        <form asp-action="RemoveRole" method="post">
+            <input type="hidden" id="userid" name="userid" value="@Model.User.Id"/>
+            <input type="hidden" id="rolename" name="rolename" value="@role" />
+            <input type="submit" value="Verwijderen"/> 
+        </form></li>
+    }
+</ul>
+<form asp-action="AddRole" asp-controller="Admin" method="post">
+    <select name="AvailableRoles" >        
+        @foreach (var option in Model.AvailableRoles)
+        {
+            <option value="@option.Id">@option.Name</option>
+        }
+    </select>
+    <input type="hidden" id="userid" name="userId" value="@Model.User.Id" />
+    <input type="hidden" id="selectedRoleId" name="selectedRoleId"  value=""/>
+    <input type="submit" value="Toevoegen" onclick="setSelectedRoleId()" />    
+</form>
+
+<script>
+    function setSelectedRoleId() {
+        var selectedRoleId = document.querySelector('select[name="AvailableRoles"]').value;
+        console.log(selectedRoleId)
+        document.getElementById('selectedRoleId').value = selectedRoleId;
+        // Now, submit the form
+        document.querySelector('form').submit();
+    }
+</script>
