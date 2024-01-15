@@ -1,3 +1,4 @@
+using Home_Central.Areas.Identity;
 using Home_Central.Data;
 using Home_Central.Services;
 using Microsoft.AspNetCore.Identity;
@@ -16,7 +17,7 @@ var logging = builder.Configuration.GetValue<string>("LoggingEnabled", "false");
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddSingleton<IEmailSender,SmtpService>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySQL(connectionString));
+    options.UseMySQL(connectionString,o => o.MaxBatchSize(20)));
 builder.Services.AddDbContext<WoningDbContext>(options =>
     options.UseMySQL(connectionString));
 // enable logging depending on  value in appsettings.json (not standard)
