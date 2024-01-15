@@ -25,7 +25,7 @@
         <form asp-action="RemoveRole" method="post">
             <input type="hidden" id="userid" name="userid" value="@Model.User.Id"/>
             <input type="hidden" id="rolename" name="rolename" value="@role" />
-            <input type="submit" value="Verwijderen"/> 
+            <input type="submit" value="Verwijderen" class="btn btn-outline-primary"/> 
         </form></li>
     }
 </ul>
@@ -38,7 +38,7 @@
     </select>
     <input type="hidden" id="userid" name="userId" value="@Model.User.Id" />
     <input type="hidden" id="selectedRoleId" name="selectedRoleId"  value=""/>
-    <input type="submit" value="Toevoegen" onclick="setSelectedRoleId()" />    
+    <input type="submit" value="Toevoegen" onclick="setSelectedRoleId()" class="btn btn-outline-primary" />
 </form>
 
 <script>

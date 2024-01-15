@@ -29,7 +29,7 @@
 <div>
     @if (SignInManager.IsSignedIn(User))
     {
-        <button type="submit" onclick="location='@Url.Action("NieuweText","Home")'">Nieuwe tekst blok</button>
+        <button type="submit" onclick="location='@Url.Action("NieuweText","Home")'" class="btn btn-outline-primary">Nieuwe tekst blok</button>
     }
     @if (Model != null)
     {
@@ -39,15 +39,15 @@
                 <p>@text.Body</p>
                 @if (SignInManager.IsSignedIn(User))
                 {
-                        <button type="submit" onclick="location='@Url.Action("EditText","Home",@text)'">Tekst blok aanpassen</button>
-                        <button type="submit" onclick="location='@Url.Action("DeleteText","Home",@text)'">Delete blok</button>
+                        <button type="submit" onclick="location='@Url.Action("EditText","Home",@text)'" class="btn btn-outline-primary">Tekst blok aanpassen</button>
+                        <button type="submit" onclick="location='@Url.Action("DeleteText","Home",@text)'" class="btn btn-outline-primary">Delete blok</button>
                 }                
             </div>
         }
     }
 </div>
-<a href="https://cv.peterkuda.be">Link naar mijn volledige curriculum vitae</a>
+<button type="submit" onclick='location="https://cv.peterkuda.be' class="btn btn-outline-primary">Link naar mijn volledige curriculum vitae</button>
 @if (SignInManager.IsSignedIn(User))
 {
-    <a asp-action="Index" asp-controller="WoningVerbruik">Woning verbruik</a>
+    <button type="submit" onclick="location='@Url.Action("Index","WoningVerbruik")'" class="btn btn-outline-primary">Woning verbruik</button>
 }
