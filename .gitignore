@@ -362,3 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /Home Central/wwwroot/lib
+/Home Central/HomeCentral.db
+/Home Central/HomeCentral.db-shm
+/Home Central/HomeCentral.db-wal
