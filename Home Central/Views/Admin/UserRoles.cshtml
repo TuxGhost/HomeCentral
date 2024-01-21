@@ -1,0 +1,23 @@
+﻿@model IEnumerable<IdentityUserRole<string>>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var role in Model)
+        {
+            <tr>
+                <td>@role.UserId</td>
+                <td>@role.RoleId</td>                
+            </tr>
+        }
+    </tbody>
+</table>

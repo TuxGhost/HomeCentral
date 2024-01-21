@@ -16,6 +16,8 @@ namespace Home_Central.Data
 
             // Seeding of data
             builder.ApplyConfiguration(new AspNetUsersSeeding());
+            builder.ApplyConfiguration(new AspNetRolesSeeding());
+            builder.ApplyConfiguration(new AspNetUserRolesSeeding());
         }
     }
 }
