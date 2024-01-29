@@ -22,14 +22,14 @@
     @foreach (var role in Model.Roles)
     {
         <li>@role
-        <form asp-action="RemoveRole" method="post">
+        <form asp-action="RemoveUserRole" method="post">
             <input type="hidden" id="userid" name="userid" value="@Model.User.Id"/>
             <input type="hidden" id="rolename" name="rolename" value="@role" />
             <input type="submit" value="Verwijderen" class="btn btn-outline-primary"/> 
         </form></li>
     }
 </ul>
-<form asp-action="AddRole" asp-controller="Admin" method="post">
+<form asp-action="AddUserRole" asp-controller="Admin" method="post">
     <select name="AvailableRoles" >        
         @foreach (var option in Model.AvailableRoles)
         {

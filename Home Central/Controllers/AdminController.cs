@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Controller;
 
 
 namespace Home_Central.Controllers;
@@ -12,6 +13,7 @@ namespace Home_Central.Controllers;
 public class AdminController : Controller
 {
     private readonly ApplicationDbContext context;    
+    private readonly RoleViewModel roleViewModel = new RoleViewModel();
     public AdminController(ApplicationDbContext context)
     {
         this.context = context;
@@ -28,8 +30,8 @@ public class AdminController : Controller
     }
     public async Task <IActionResult> Roles()
     {
-        var roles = await context.Roles.ToListAsync();
-        return View(roles);
+        roleViewModel.Roles = await context.Roles.ToListAsync();
+        return View(roleViewModel);
     }
     public async Task<IActionResult> UserRoles()
     {
@@ -57,7 +59,7 @@ public class AdminController : Controller
     }
     
     [HttpPost]
-    public async Task<IActionResult> AddRole(string userid, string selectedRoleId)
+    public async Task<IActionResult> AddUserRole(string userid, string selectedRoleId)
     {
         var nw = new IdentityUserRole<string> {
             RoleId = selectedRoleId,
@@ -69,7 +71,7 @@ public class AdminController : Controller
         return View(nameof(Index));
     }
     [HttpPost]
-    public async Task<IActionResult> RemoveRole(string userid, string rolename)
+    public async Task<IActionResult> RemoveUserRole(string userid, string rolename)
     {
         var dbRole = await context.Roles.Where(r => r.Name == rolename).FirstOrDefaultAsync();
         var nw = new IdentityUserRole<string>
@@ -81,5 +83,35 @@ public class AdminController : Controller
         _ = await context.SaveChangesAsync();
 
         return View(nameof(Index));
+    }
+    [HttpPost]
+    public async Task<IActionResult> AddRole(RoleViewModel viewModel)
+    {        
+        if(ModelState.IsValid)
+        {
+            await context.Roles.AddAsync(new IdentityRole
+            {
+                Name = viewModel.RoleName,
+                NormalizedName = viewModel.RoleName.ToUpper()
+            });
+            _ = await context.SaveChangesAsync();
+            
+        }
+        if(roleViewModel.Roles == null)
+            roleViewModel.Roles = await context.Roles.ToListAsync();
+        return View(nameof(Roles), roleViewModel);
+    }
+    [HttpPost]
+    public async Task<IActionResult> RemoveRole(string id)
+    {
+        string[] keys = { id };
+        IdentityRole? ir = await context.Roles.FindAsync(keys);
+        if(ir != null)
+        {
+            context.Roles.Remove(ir);
+            await context.SaveChangesAsync();
+        }
+        roleViewModel.Roles = await context.Roles.ToListAsync();
+        return View(nameof(Roles), roleViewModel);        
     }
 }
