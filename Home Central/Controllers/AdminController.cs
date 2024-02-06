@@ -97,8 +97,7 @@ public class AdminController : Controller
             _ = await context.SaveChangesAsync();
             
         }
-        if(roleViewModel.Roles == null)
-            roleViewModel.Roles = await context.Roles.ToListAsync();
+        roleViewModel.Roles = await context.Roles.ToListAsync();
         return View(nameof(Roles), roleViewModel);
     }
     [HttpPost]
