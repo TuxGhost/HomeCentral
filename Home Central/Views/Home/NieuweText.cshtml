@@ -7,17 +7,17 @@
 
 <form method="post" asp-action="SetNieuweText" asp-controller="Home">
     <div class="row">
-        <label asp-for="Id">Id</label>
+        <label asp-for="Id" class="col-form-label">Id</label>
         <input type="number" name="Id" value="@Model.Id" readonly/>
     </div>
     <div class="row">
-        <label asp-for="Subject">Onderwerp</label>
+        <label asp-for="Subject" class="col-form-label">Onderwerp</label>
         <input type="text" name="Subject" value="@Model.Subject" minlengt="1"/>
     </div>
     <div class="row">
-        <label asp-for="Body" class="form-label">Inhoud</label>        
+        <label asp-for="Body" class="col-form-label">Inhoud</label>        
         <textarea asp-for="Body" rows="10"></textarea>
-        <input type="submit" value="Submit" class="btn btn-outline-primary"/>
+        <input  type="submit" value="Submit" class="btn btn-outline-primary"/>
         <span>@Html.ValidationSummary("Er zijn validatiefouten")</span>
     </div>    
 </form>

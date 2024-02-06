@@ -5,39 +5,42 @@
 @{
 }
 <h3>User data</h3>
-<div>
-    <label>Id</label><input type="text" value="@Model.User.Id" readonly />
+<div class="row">
+    <label class="col-form-label">Id</label><input type="text" value="@Model.User.Id" readonly />
 </div>
-<div>
-    <label>Gebruikersnaam</label><input type="text" value="@Model.User.UserName" readonly />
+
+<div class="row">
+    <label class="col-form-label">Gebruikersnaam</label><input type="text" value="@Model.User.UserName" readonly />
 </div>
-<div>
-    <label>E-mail</label><input type="text" value="@Model.User.Email" readonly />
+<div class="row">
+    <label class="col-form-label">E-mail</label><input type="text" value="@Model.User.Email" readonly />
 </div>
-<div>
-    <label>Telefoon</label><input type="text" value="@Model.User.PhoneNumber" readonly />
+<div class="row">
+    <label class="col-form-label"> Telefoon</label><input type="text" value="@Model.User.PhoneNumber" readonly />
 </div>
 <h3>Roles</h3>
 <ul>
     @foreach (var role in Model.Roles)
     {
-        <li>@role
-        <form asp-action="RemoveUserRole" method="post">
-            <input type="hidden" id="userid" name="userid" value="@Model.User.Id"/>
-            <input type="hidden" id="rolename" name="rolename" value="@role" />
-            <input type="submit" value="Verwijderen" class="btn btn-outline-primary"/> 
-        </form></li>
+        <li>
+            @role
+            <form asp-action="RemoveUserRole" method="post">
+                <input type="hidden" id="userid" name="userid" value="@Model.User.Id" />
+                <input type="hidden" id="rolename" name="rolename" value="@role" />
+                <input type="submit" value="Verwijderen" class="btn btn-outline-primary" />
+            </form>
+        </li>
     }
 </ul>
 <form asp-action="AddUserRole" asp-controller="Admin" method="post">
-    <select name="AvailableRoles" >        
+    <select name="AvailableRoles">
         @foreach (var option in Model.AvailableRoles)
         {
             <option value="@option.Id">@option.Name</option>
         }
     </select>
     <input type="hidden" id="userid" name="userId" value="@Model.User.Id" />
-    <input type="hidden" id="selectedRoleId" name="selectedRoleId"  value=""/>
+    <input type="hidden" id="selectedRoleId" name="selectedRoleId" value="" />
     <input type="submit" value="Toevoegen" onclick="setSelectedRoleId()" class="btn btn-outline-primary" />
 </form>
 
