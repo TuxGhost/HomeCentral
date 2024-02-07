@@ -32,16 +32,24 @@ namespace Home_Central.Controllers
             return View(value);        
         }
         [HttpPost]
-        public async Task<IActionResult> SetNieuweText(HomeText value)
+        [Authorize]
+        public async Task<IActionResult> SetNieuweText(HomeTextModel value)
         {
             if(ModelState.IsValid)
             {
                 try
                 {
-                    if (value.Id == 0)
-                        await _homeService.PostHomeText(value);
+                    HomeText hometext = new HomeText
+                    {
+                        Id = value.HomeText.Id,
+                        Subject = value.HomeText.Subject,
+                        Body = value.HomeText.Body,
+                        IsActive = value.HomeText.IsActive
+                    };
+                    if (value.HomeText.Id == 0)
+                        await _homeService.PostHomeText(hometext);
                     else
-                        await _homeService.UpdateHomeText(value);
+                        await _homeService.UpdateHomeText(hometext);
                     var nieuw = new HomeText();
                     return View(nameof(Index));
                 }
@@ -54,8 +62,8 @@ namespace Home_Central.Controllers
         }
         [Authorize]
         public  IActionResult EditText(HomeText homeText)
-        {            
-            return View(nameof(NieuweText),homeText);
+        {                        
+            return View(nameof(NieuweText),new HomeTextModel() { HomeText = homeText });
         }
         [Authorize]
         public IActionResult DeleteText(HomeText homeText)
