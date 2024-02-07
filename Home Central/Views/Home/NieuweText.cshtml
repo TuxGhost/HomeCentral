@@ -8,7 +8,7 @@
 <form method="post" asp-action="SetNieuweText" asp-controller="Home">
     <div class="row">
         <label asp-for="HomeText.Id" class="col-form-label">Id</label>
-        <input type="number" name="Id" value="@Model.HomeText.Id" readonly />
+        <input asp-for="HomeText.Id" type="number" value="@Model.HomeText.Id" readonly />
     </div>
     <div class="row">
         <label asp-for="HomeText.Subject" class="col-form-label">Onderwerp</label>
