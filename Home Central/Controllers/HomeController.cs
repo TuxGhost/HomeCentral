@@ -39,7 +39,9 @@ namespace Home_Central.Controllers
                 {
                     HomeText hometext = new HomeText
                     {
+                        Id = value.HomeText.Id,
                         Subject = value.HomeText.Subject,
+                        Body = value.HomeText.Body,
                         IsActive = value.HomeText.IsActive
                     };
                     if (value.HomeText.Id == 0)
