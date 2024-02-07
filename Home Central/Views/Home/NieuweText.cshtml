@@ -1,4 +1,4 @@
-﻿@model Home_Central.Data.Entities.HomeText;
+﻿@model HomeTextModel
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -7,17 +7,23 @@
 
 <form method="post" asp-action="SetNieuweText" asp-controller="Home">
     <div class="row">
-        <label asp-for="Id">Id</label>
-        <input type="number" name="Id" value="@Model.Id" readonly/>
+        <label asp-for="HomeText.Id" class="col-form-label">Id</label>
+        <input type="number" name="Id" value="@Model.HomeText.Id" readonly />
     </div>
     <div class="row">
-        <label asp-for="Subject">Onderwerp</label>
-        <input type="text" name="Subject" value="@Model.Subject" minlengt="1"/>
+        <label asp-for="HomeText.Subject" class="col-form-label">Onderwerp</label>
+        <input asp-for="HomeText.Subject" type="text" value="@Model.HomeText.Subject" minlengt="1" />
+        <span asp-validationfor="HomeText.Subject"></span>
     </div>
     <div class="row">
-        <label asp-for="Body" class="form-label">Inhoud</label>        
-        <textarea asp-for="Body" rows="10"></textarea>
-        <input type="submit" value="Submit" class="btn btn-outline-primary"/>
-        <span>@Html.ValidationSummary("Er zijn validatiefouten")</span>
-    </div>    
+        <label asp-for="HomeText.Body" class="col-form-label">Inhoud</label>
+        <textarea asp-for="HomeText.Body" rows="10"></textarea>
+        
+    </div>
+    <div>
+       <label asp-for="HomeText.IsActive" class="col-form-label">Geactiveerd</label>
+        <input type="checkbox" asp-for="HomeText.IsActive" class="col-form-label" />        
+    </div>
+    <input id="btnChange" type="submit" value="Aanpassen" class="btn btn-outline-primary" />
+    <span asp-validationfor="HomeText"></span>
 </form>
