@@ -9,13 +9,15 @@ namespace Home_Central.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IConfiguration? config;
         private readonly ILogger<HomeController> _logger;
         private readonly IHomeService _homeService;
 
-        public HomeController(ILogger<HomeController> logger,IHomeService homeService)
+        public HomeController(ILogger<HomeController> logger,IHomeService homeService,IConfiguration config)
         {
             _logger = logger;
             _homeService = homeService;
+            config = this.config;
         }
 
         public async Task<IActionResult> Index()
