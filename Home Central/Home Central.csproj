@@ -6,8 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-Home_Central-e4c557d2-b884-4c16-89e5-5769d1bd8136</UserSecretsId>
     <RootNamespace>Home_Central</RootNamespace>
-    <VersionPrefix>2.0.0</VersionPrefix>
-    <VersionSuffix>Alfa</VersionSuffix>    
+    <VersionPrefix>2.0.0</VersionPrefix>    
   </PropertyGroup>
 
   <ItemGroup>
