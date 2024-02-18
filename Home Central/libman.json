@@ -4,8 +4,8 @@
   "libraries": [
     {
       "provider": "cdnjs",
-      "library": "bootstrap@5.1.0",
-      "destination": "wwwroot/lib/bootstrap/",
+      "library": "bootstrap@5.2.0",
+      "destination": "wwwroot/lib//bootstrap/dist",
       "files": [
         "css/bootstrap.css",
         "css/bootstrap-grid.css",
