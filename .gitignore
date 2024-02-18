@@ -364,3 +364,6 @@ FodyWeavers.xsd
 /Home Central/wwwroot/lib
 /Home Central/appsettings.json
 /.vs2
+/Home Central/HomeCentral.db
+/Home Central/HomeCentral.db-shm
+/Home Central/HomeCentral.db-wal
