@@ -28,7 +28,7 @@ namespace Home_Central.Controllers
         [Authorize]
         public IActionResult NieuweText()
         {
-            var value = new HomeText();
+            var value = new HomeTextModel();
             return View(value);        
         }
         [HttpPost]
