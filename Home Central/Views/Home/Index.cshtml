@@ -1,6 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Home_Central.Resources
+@using Microsoft.AspNetCore.Localization
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+@inject IViewLocalizer Localizer
 @model IEnumerable<Home_Central.Data.Entities.HomeText>
 @{
     ViewData["Title"] = "Home Page";
@@ -29,7 +34,7 @@
 <div>
     @if (SignInManager.IsSignedIn(User))
     {
-        <button type="submit" onclick="location='@Url.Action("NieuweText","Home")'" class="btn btn-outline-primary">Nieuwe tekst blok</button>
+        <button type="submit" onclick="location='@Url.Action("NieuweText","Home")'" class="btn btn-outline-primary">@Localizer["CreateText"]</button>
     }
     @if (Model != null)
     {

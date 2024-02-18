@@ -4,10 +4,15 @@ using Home_Central.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 using System.Net.Mail;
+using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
     throw new InvalidOperationException("Could not connect to database");
@@ -20,6 +25,24 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySQL(connectionString,o => o.MaxBatchSize(20)));
 builder.Services.AddDbContext<WoningDbContext>(options =>
     options.UseMySQL(connectionString));
+// add language services
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new List<CultureInfo>
+    {
+        new CultureInfo("en"),
+        new CultureInfo("en-US"),
+        new CultureInfo("nl"),
+        new CultureInfo("nl-BE"),
+    };
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+    options.DefaultRequestCulture = new RequestCulture("en");
+});
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+builder.Services.AddControllersWithViews()
+        .AddViewLocalization(LanguageViewLocationExpanderFormat.SubFolder)
+    .AddDataAnnotationsLocalization();
 // enable logging depending on  value in appsettings.json (not standard)
 if (logging == "true")
 {
@@ -49,6 +72,7 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -69,6 +93,25 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRequestLocalization();
+app.Use(async (context, next) =>
+{
+    var requestCultureFeature = context.Features.Get<IRequestCultureFeature>();    
+    if(requestCultureFeature != null)
+    {
+        var currentCulture = context.Features.Get<IRequestCultureFeature>().RequestCulture.Culture;
+        var currentUICulture = context.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture;
+        //console.writeline(localizer!.tostring());
+        //console.writeline($"current culture : {cultureinfo.currentculture.name} , {cultureinfo.currentuiculture.name}");
+        //console.writeline($"{requestculture.culture.name} , {requestculture.uiculture.name}");
+        Console.WriteLine($"Request path: {context.Request.Path}");
+        Console.WriteLine($"Request path: {context.Request.Host}");
+        Console.WriteLine($"Request path: {context.Request.Method}");
+
+        Console.WriteLine($"{currentCulture.Name} , {currentUICulture.Name}");
+    }    
+    await next();
+});
 
 app.MapControllerRoute(
     name: "default",
