@@ -3,7 +3,7 @@
 @inject IHtmlLocalizer<SharedResource> SharedLocalizer
 @inject IViewLocalizer Localizer
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,22 +42,27 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 -2024 - Peter Kuda 
+            &copy; 2023 -2025 - Peter Kuda 
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
+        function applyStoredTheme(){
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-bs-theme',theme);
+            document.getElementById('theme-switcher',theme).textContent= theme === 'dark' ? 'light' : 'dark';
+        }
         const switchButton = document.getElementById('theme-switcher');
         switchButton.addEventListener('click', () => {                
             const htmlElement = document.querySelector('html');
             const currentTheme = htmlElement.getAttribute('data-bs-theme');            
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            htmlElement.dataset.bsTheme = newTheme;
-            htmlElement.setAttribute('data-bs-theme', newTheme);
-            console.log('switch theme ' + currentTheme + ' to ' + newTheme);
+            localStorage.setItem('theme',newTheme);
+            applyStoredTheme();                        
         });
+        applyStoredTheme();
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

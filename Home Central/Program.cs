@@ -23,6 +23,8 @@ builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddSingleton<IEmailSender,SmtpService>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString,o => o.MaxBatchSize(20)));
+/*builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySQL(connectionString, o => o.MaxBatchSize(20)));*/
 builder.Services.AddDbContext<WoningDbContext>(options =>
     options.UseMySQL(connectionString));
 // add language services
@@ -48,6 +50,7 @@ if (logging == "true")
 {
     builder.Services.AddDbContext<HomeDbContext>(options =>
         options.UseSqlite(connectionString)
+        //options.UseMySQL(connectionString)
         .LogTo(Console.WriteLine ,
             new[] { DbLoggerCategory.Database.Command.Name } ,
             Microsoft.Extensions.Logging.LogLevel.Information,
@@ -58,6 +61,7 @@ if (logging == "true")
 } else
 {
     builder.Services.AddDbContext<HomeDbContext>(options =>
+        //options.UseMySQL(connectionString)
         options.UseSqlite(connectionString)
     );
 }
