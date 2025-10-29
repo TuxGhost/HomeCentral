@@ -21,10 +21,10 @@ var logging = builder.Configuration.GetValue<string>("LoggingEnabled", "false");
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddSingleton<IEmailSender,SmtpService>();
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    //options.UseSqlite(connectionString,o => o.MaxBatchSize(20)));
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString,o => o.MaxBatchSize(20)));
-/*builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySQL(connectionString, o => o.MaxBatchSize(20)));*/
+    options.UseMySQL(connectionString, o => o.MaxBatchSize(20)));
 builder.Services.AddDbContext<WoningDbContext>(options =>
     options.UseMySQL(connectionString));
 // add language services
@@ -49,8 +49,8 @@ builder.Services.AddControllersWithViews()
 if (logging == "true")
 {
     builder.Services.AddDbContext<HomeDbContext>(options =>
-        options.UseSqlite(connectionString)
-        //options.UseMySQL(connectionString)
+        //options.UseSqlite(connectionString)
+        options.UseMySQL(connectionString)
         .LogTo(Console.WriteLine ,
             new[] { DbLoggerCategory.Database.Command.Name } ,
             Microsoft.Extensions.Logging.LogLevel.Information,
