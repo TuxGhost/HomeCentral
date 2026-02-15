@@ -5,11 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "C#: HomeCentral Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/Home Central/HomeCentral.csproj"
+        },
+        {
             "name": ".NET Core Launch (web)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Home Central/bin/Debug/net8.0/Home Central.dll",
+            "program": "${workspaceFolder}/Home Central/bin/Debug/net8.0/HomeCentral.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Home Central",
             "stopAtEntry": false,
@@ -22,7 +28,18 @@
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
-            }
+            },
+            "justMyCode": false
+        },
+        {
+            "name": "Debug IncludeProject",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/HomeCentral-Migration-SqLite/bin/Debug/net8.0/HomeCentral-Migration-SqLite.dll",
+            "cwd": "${workspaceFolder}/HomeCentral-Migration-SqLite",
+            "console": "integratedTerminal",
+            "justMyCode": false
         }
 
     ]

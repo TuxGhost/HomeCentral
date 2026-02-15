@@ -5,8 +5,6 @@ VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeCentral", "Home Central\HomeCentral.csproj", "{404329D7-C902-4385-9262-FB2801E64426}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeCentral-Migration-SqLite", "HomeCentral-Migration-SqLite\HomeCentral-Migration-SqLite.csproj", "{F179FEFB-87CD-4FCF-8FAB-5E12A6142487}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
