@@ -25,16 +25,33 @@ public class SmtpService : IEmailSender
             string host = _config.GetValue<string>("smtp:host");
             string user = _config.GetValue<string>("smtp:user");
             string password = _config.GetValue<string>("smtp:Password");
-            _smtpClient = new SmtpClient
+            string noreply = _config.GetValue<string>("smtp:noreply")??"noreply@localhost";
+            bool ssl = _config.GetValue<bool>("smtp:ssl",true);
+            if (user != null) {
+                _smtpClient = new SmtpClient
+                {
+                    UseDefaultCredentials = ssl,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    EnableSsl = true,
+                    Host = host,
+                    Port = port,
+                    Credentials = new NetworkCredential(user, password)
+                };
+            } else
             {
-                UseDefaultCredentials = false,
-                DeliveryMethod = SmtpDeliveryMethod.Network,                
-                EnableSsl = true,
-                Host = host,
-                Port = port,                
-                Credentials = new NetworkCredential(user, password)
-            };
-            MailMessage mailMessage = new MailMessage("noreply@peterkuda.be", email)
+                _smtpClient = new SmtpClient
+                {
+                    UseDefaultCredentials = false,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    EnableSsl = false,
+                    Host = host,
+                    Port = port,
+                    //Credentials = new NetworkCredential(user, password)
+                    
+                };
+            }
+                
+            MailMessage mailMessage = new MailMessage(noreply, email)
             {
                 Subject = subject,
                 Body = htmlMessage,

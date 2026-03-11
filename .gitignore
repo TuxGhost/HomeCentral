@@ -367,3 +367,6 @@ FodyWeavers.xsd
 /Home Central/HomeCentral.db
 /Home Central/HomeCentral.db-shm
 /Home Central/HomeCentral.db-wal
+/Home Central/Properties/launchSettings.json
+/Home Central/appsettings.Development.json
+/Home Central/appsettings.json
