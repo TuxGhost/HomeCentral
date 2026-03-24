@@ -7,7 +7,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th scope="col">Id</th>
+            <th hidden scope="col">Id</th>
             <th scope="col">Name</th>
             <th scope="col">Normalized</th>
             <th scope="col"></th>
@@ -17,7 +17,7 @@
         @foreach (var role in Model.Roles)
         {
             <tr>
-                <td>@role.Id</td>
+                <td hidden>@role.Id</td>
                 <td>@role.Name</td>
                 <td>@role.NormalizedName</td>
                 <td>

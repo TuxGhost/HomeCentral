@@ -8,7 +8,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Id</th>
+            <th hidden>Id</th>
             <th>User</th>
             <th>E-mail</th>
             <th>E-mail confirmed</th>
@@ -24,8 +24,8 @@
         @foreach (var user in Model)
         {
             <tr>
-                <td><a asp-action="UserDetail" asp-route-id="@user.Id">@user.Id</a></td>
-                <td>@user.UserName</td>
+                <td hidden><a asp-action="UserDetail" asp-route-id="@user.Id">@user.Id</a></td>
+                <td><a asp-action="UserDetail" asp-route-id="@user.Id">@user.UserName</a></td>
                 <td>@user.Email</td>
                 <td>@user.EmailConfirmed</td>
                 <td>@user.PhoneNumber</td>
