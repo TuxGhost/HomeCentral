@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Localization;
 using System.Net.Mail;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddConsole();
@@ -18,6 +20,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
     throw new InvalidOperationException("Could not connect to database");
 
 var logging = builder.Configuration.GetValue<string>("LoggingEnabled", "false");
+var swtKey = builder.Configuration.GetValue<string>("Jwt:SecretKey", "");
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddSingleton<IEmailSender,SmtpService>();
@@ -72,6 +75,30 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+})
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Identity/Account/Login";
+        options.LogoutPath = "/Identity/Account/Logout";
+        options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    }).AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(swtKey)),
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+builder.Services.AddAuthorization();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

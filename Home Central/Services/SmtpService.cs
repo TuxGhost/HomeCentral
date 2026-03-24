@@ -14,19 +14,20 @@ public class SmtpService : IEmailSender
         _config = config;
     }
     public Task SendEmailAsync(string email, string subject, string htmlMessage)
-    {
+    {        
         if(_config == null)
         {
             return Task.FromException(new Exception("No configuration available"));
-        }                
+        }
+        string noreply = _config.GetValue<string>("smtp:noreply") ?? "noreply@localhost";
         if (_smtpClient == null)
         {
             int port = int.Parse(_config.GetValue<string>("smtp:port"));
             string host = _config.GetValue<string>("smtp:host");
             string user = _config.GetValue<string>("smtp:user");
             string password = _config.GetValue<string>("smtp:Password");
-            string noreply = _config.GetValue<string>("smtp:noreply")??"noreply@localhost";
-            bool ssl = _config.GetValue<bool>("smtp:ssl",true);
+            
+            bool ssl = _config.GetValue<bool>("smtp:ssl", true);
             if (user != null) {
                 _smtpClient = new SmtpClient
                 {
@@ -47,10 +48,11 @@ public class SmtpService : IEmailSender
                     Host = host,
                     Port = port,
                     //Credentials = new NetworkCredential(user, password)
-                    
+
                 };
             }
-                
+        }
+        if( _smtpClient == null) { 
             MailMessage mailMessage = new MailMessage(noreply, email)
             {
                 Subject = subject,
