@@ -1,4 +1,5 @@
 using Home_Central.Areas.Identity;
+using HomeCentral.Data;
 using Home_Central.Data;
 using Home_Central.Services;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using HomeCentral.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddConsole();
@@ -61,15 +63,27 @@ if (logging == "true")
             Microsoft.EntityFrameworkCore.Diagnostics.DbContextLoggerOptions.LocalTime)
         .EnableSensitiveDataLogging()
     );
+    builder.Services.AddDbContext<HomeDbContextUpdate>(options =>        
+        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+        .LogTo(Console.WriteLine,
+            new[] { DbLoggerCategory.Database.Command.Name },
+            Microsoft.Extensions.Logging.LogLevel.Information,
+            Microsoft.EntityFrameworkCore.Diagnostics.DbContextLoggerOptions.Level |
+            Microsoft.EntityFrameworkCore.Diagnostics.DbContextLoggerOptions.LocalTime)
+        .EnableSensitiveDataLogging()
+    );
 } else
 {
     builder.Services.AddDbContext<HomeDbContext>(options =>
         options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString))
-        //options.UseSqlite(connectionString)
+    );
+    builder.Services.AddDbContext<HomeDbContextUpdate>(options =>
+        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
     );
 }
 
 builder.Services.AddTransient<IHomeService, HomeService>();
+builder.Services.AddScoped<IUrlService, UrlService>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -148,5 +162,26 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+// initialize database 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        //var context = services.GetRequiredService<ApplicationDbContext>();
+        //context.Database.Migrate();
+        //var homeContext = services.GetRequiredService<HomeDbContext>();
+        //homeContext.Database.Migrate();
+        var homeContextUpdate = services.GetRequiredService<HomeDbContextUpdate>();
+        homeContextUpdate.Database.EnsureCreated();
+        homeContextUpdate.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating the database.");
+    }
+}
 
 app.Run();

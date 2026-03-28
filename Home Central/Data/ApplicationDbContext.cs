@@ -13,7 +13,8 @@ namespace Home_Central.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
+            // configurations   
+                //builder.ApplyConfiguration(new AspNetUsersSeeding());
             // Seeding of data
             builder.ApplyConfiguration(new AspNetUsersSeeding());
             builder.ApplyConfiguration(new AspNetRolesSeeding());

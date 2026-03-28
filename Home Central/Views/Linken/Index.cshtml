@@ -1,0 +1,37 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Home_Central.Resources
+@using Microsoft.AspNetCore.Localization
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+@inject IViewLocalizer Localizer
+@model IEnumerable<HomeCentral.Data.Entities.Linken>
+@{
+    ViewData["Title"] = "Linken";
+}
+
+
+<div>  
+    @if (Model != null)
+    {
+        @foreach (var text in Model)
+        {
+            <div class="row row-cols-xxl-auto">
+                <div class="col" hidden>@text.Id</div>
+                <div class="col">@text.Name</div>
+                <div class="col">@text.Active</div>               
+            </div>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <button type="submit" onclick="location='@Url.Action("Edit", "Linken", @text)'" class="btn btn-outline-primary">Tekst blok aanpassen</button>
+                <button type="submit" onclick="location='@Url.Action("Delete", "Linken", new { id = text.Id }) '" class="btn btn-outline-primary">Delete blok</button>
+            }
+        }
+    }
+</div>
+<button type="submit" onclick='location="https://cv.peterkuda.be"' class="btn btn-outline-primary">Link naar mijn volledige curriculum vitae</button>
+@if (SignInManager.IsSignedIn(User))
+{
+    <button type="submit" onclick="location='@Url.Action("Index", "WoningVerbruik")'" class="btn btn-outline-primary">Woning verbruik</button>
+}
