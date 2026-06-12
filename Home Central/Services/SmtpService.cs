@@ -8,10 +8,17 @@ public class SmtpService : IEmailSender
 {
     private readonly IConfiguration _config;    
     private SmtpClient _smtpClient = null!;
-    
-    public SmtpService(IConfiguration config) 
+    private readonly ILogger<SmtpService> _logger;
+
+    public SmtpService(IConfiguration config,ILogger<SmtpService> logger) 
     { 
         _config = config;
+        _logger = logger;
+        _logger.LogInformation("e-mail constructor");
+    }
+    public void SendMail(string email, string subject, string htmlMessage)
+    {
+
     }
     public Task SendEmailAsync(string email, string subject, string htmlMessage)
     {        
@@ -52,7 +59,7 @@ public class SmtpService : IEmailSender
                 };
             }
         }
-        if( _smtpClient == null) { 
+        if( _smtpClient != null) { 
             MailMessage mailMessage = new MailMessage(noreply, email)
             {
                 Subject = subject,
