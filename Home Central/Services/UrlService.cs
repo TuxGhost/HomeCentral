@@ -26,11 +26,12 @@ public class UrlService : IUrlService
         try { 
             var r = dbContext.Linken.Where(x => x.Id == id).FirstOrDefault();
             dbContext.Linken.Remove(r);
+            var result = await  dbContext.SaveChangesAsync();
         } catch(Exception ex)
         {
             Console.WriteLine(ex.ToString());
         }
-        await dbContext.SaveChangesAsync();
+        //await dbContext.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<Linken>> GetURLAsync()
@@ -47,10 +48,16 @@ public class UrlService : IUrlService
 
     public async Task Post(Linken url)
     {
-        var item = await dbContext.Linken.AddAsync(url);
-        var resultaat = await dbContext.SaveChangesAsync();        
+        try
+        {
+            var item = await dbContext.Linken.AddAsync(url);
+            var resultaat = await dbContext.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
     }
-
     public async Task Update(Linken url)
     {
         var item = await dbContext.Linken.AddAsync(url);

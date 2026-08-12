@@ -29,9 +29,10 @@
             }
         }
     }
+    <button type="submit" onclick="location='@Url.Action("Create", "Linken")'" class="btn btn-outline-primary">Link invoegen</button>
 </div>
-<button type="submit" onclick='location="https://cv.peterkuda.be"' class="btn btn-outline-primary">Link naar mijn volledige curriculum vitae</button>
+
 @if (SignInManager.IsSignedIn(User))
 {
-    <button type="submit" onclick="location='@Url.Action("Index", "WoningVerbruik")'" class="btn btn-outline-primary">Woning verbruik</button>
+    
 }
