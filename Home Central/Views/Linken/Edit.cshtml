@@ -4,7 +4,7 @@
 @model HomeCentral.Data.Entities.Linken
 <h3>Link invoegen</h3>
 <form method="post" asp-action="edit">
-    <div>
+    <div class="d-grid">
         <label hidden>Id</label><input asp-for="@Model.Id" />
         <label>Name</label><input asp-for="@Model.Name" />
         <label>Url</label><input asp-for="@Model.Url" />
