@@ -10,7 +10,12 @@
         <label>Url</label><input asp-for="@Model.Url" />
         <label>Active</label><input asp-for="@Model.Active" />
     </div>
-    <button id="id" type="submit">aanpassen</button>
+<div>
+    <span asp-validation-for="@Model.Name" class="text-danger"></span>
+    <span asp-validation-for="@Model.Url" class="text-danger"></span>
+    <span asp-validation-for="@Model.Active" class="text-danger"></span>
+</div>
+    <button id="id" type="submit">Toevoegen</button>
 </form>
 
 @{

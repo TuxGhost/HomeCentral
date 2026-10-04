@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@inject IConfiguration Configuration
+@{
+}
+
+@foreach(var path in Configuration.GetChildren())
+{
+    switch(path.Key)
+    {
+        case "ConnectionStrings":
+            <div>@path.Key :</div>
+            foreach(var connectionString in path.GetChildren())
+            {
+                <div style="margin-left: 20px;">@connectionString.Key : @connectionString.Value</div>
+            }
+            break;
+        default:            
+            @if(path.GetChildren().Any())
+            {
+                <div>@path.Key :</div>
+                foreach(var child in path.GetChildren())
+                {
+                    <div style="margin-left: 20px;">@child.Key : @child.Value</div>
+                }
+            }
+            else
+            {
+                <div>@path.Key : @path.Value</div>
+            }            
+            break;
+    }
+})
+<a asp-action="Index" class="btn btn-outline-primary">Back</a>

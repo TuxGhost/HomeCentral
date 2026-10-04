@@ -43,7 +43,7 @@
     <input type="hidden" id="selectedRoleId" name="selectedRoleId" value="" />
     <input type="submit" value="Toevoegen" onclick="setSelectedRoleId()" class="btn btn-outline-primary" />
 </form>
-
+<a asp-action="Users" class="btn btn-outline-primary">Back</a>
 <script>
     function setSelectedRoleId() {
         var selectedRoleId = document.querySelector('select[name="AvailableRoles"]').value;

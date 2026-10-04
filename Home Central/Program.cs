@@ -13,25 +13,71 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using HomeCentral.Services;
+using HomeCentral.ConfigurationModels;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
-    throw new InvalidOperationException("Could not connect to database");
-
+string? connectionString=null;
+Database? database = builder.Configuration.GetSection("Databases:Default").Get<Database>();
+if (database != null) {
+    connectionString = database.connectionString;
+}
+if (connectionString == null)
+{
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
+        throw new InvalidOperationException("Could not connect to database");
+}
+var connectionStringSqLite = builder.Configuration.GetConnectionString("Sqlite") ?? "";
+    
 var logging = builder.Configuration.GetValue<string>("LoggingEnabled", "false");
 var swtKey = builder.Configuration.GetValue<string>("Jwt:SecretKey", "");
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddSingleton<IEmailSender,SmtpService>();
 //builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    //options.UseSqlite(connectionString,o => o.MaxBatchSize(20)));
-builder.Services.AddDbContext<ApplicationDbContext>(options =>   
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), o => o.MaxBatchSize(20)));
-builder.Services.AddDbContext<WoningDbContext>(options =>
-    options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString)));
+//options.UseSqlite(connectionString,o => o.MaxBatchSize(20)));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    switch (database?.provider.ToLower().Trim())
+    {
+        case "mysql":
+            //options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), o => o.MaxBatchSize(20));
+            options.UseSqlite(connectionStringSqLite, o => o.MaxBatchSize(20));
+            break;
+        case "sqlite":
+            options.UseSqlite(connectionString, o => o.MaxBatchSize(20));
+            break;
+        default:
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), o => o.MaxBatchSize(20));
+            //throw new InvalidOperationException($"Unsupported database provider: {database.provider}");
+            break;
+    }
+}
+);
+//options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), o => o.MaxBatchSize(20)));
+builder.Services.AddDbContext<WoningDbContext>(options => { 
+    switch(database?.provider.ToLower().Trim())
+    {
+        case "mysql":
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), o => o.MaxBatchSize(20));
+            break;
+        case "sqlite":
+            options.UseSqlite(connectionString, o => o.MaxBatchSize(20));
+            break;
+        default:
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), o => o.MaxBatchSize(20));
+            //throw new InvalidOperationException($"Unsupported database provider: {database.provider}");
+            break;
+    }    
+});
+if(connectionStringSqLite != "")
+{
+    /*builder.Services.AddDbContext<ApplicationDbContextSqlite>(options => 
+        options.UseSqlite(connectionStringSqLite, o => o.MaxBatchSize(20)));*/
+}
 // add language services
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
@@ -75,10 +121,21 @@ if (logging == "true")
 } else
 {
     builder.Services.AddDbContext<HomeDbContext>(options =>
-        options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString))
-    );
-    builder.Services.AddDbContext<HomeDbContextUpdate>(options =>
-        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+    {
+        switch (database?.provider.ToLower().Trim())
+        {
+            case "mysql":
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+                break;
+            case "sqlite":
+                options.UseSqlite(connectionString);
+                break;
+            default:
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+                //throw new InvalidOperationException($"Unsupported database provider: {database.provider}");
+                break;
+        }
+    }   
     );
 }
 
@@ -169,13 +226,16 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
-        //var context = services.GetRequiredService<ApplicationDbContext>();
-        //context.Database.Migrate();
-        //var homeContext = services.GetRequiredService<HomeDbContext>();
-        //homeContext.Database.Migrate();
-        var homeContextUpdate = services.GetRequiredService<HomeDbContextUpdate>();
-        homeContextUpdate.Database.EnsureCreated();
-        homeContextUpdate.Database.Migrate();
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        context.Database.Migrate();
+        var homeContext = services.GetRequiredService<HomeDbContext>();
+        homeContext.Database.Migrate();
+//        var homeContextUpdate = services.GetRequiredService<HomeDbContextUpdate>();
+//        homeContextUpdate.Database.EnsureCreated();
+//        homeContextUpdate.Database.Migrate();
+
+        //var applicationDbContext = services.GetRequiredService<ApplicationDbContextSqlite>();
+        //applicationDbContext.Database.Migrate();
     }
     catch (Exception ex)
     {

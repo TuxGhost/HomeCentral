@@ -1,4 +1,4 @@
-﻿namespace HomeCentral.Data;
+﻿ namespace HomeCentral.Data;
 
 using Microsoft.EntityFrameworkCore;
 using HomeCentral.Data.Entities;

@@ -33,6 +33,10 @@ public class AdminController : Controller
         roleViewModel.Roles = await context.Roles.ToListAsync();
         return View(roleViewModel);
     }
+    public async Task <IActionResult> System()
+    {
+        return View();
+    }
     public async Task<IActionResult> UserRoles()
     {
         var userroles = await context.UserRoles.ToListAsync();
